@@ -1,0 +1,42 @@
+<h2>New Contact</h2>
+
+<%= form_tag("/update", method: "get") do %>
+  <p>
+    <%= label :post, :first_name %>&nbsp;&nbsp;
+    <%= text_field :post, :first_name %>
+  </p>
+ 
+  <p>
+    <%= label :post, :last_name %>&nbsp;&nbsp;
+    <%= text_field :post, :last_name %>
+  </p>
+
+  <p>
+    <%= label :post, :phone_number_1 %>&nbsp;&nbsp;
+    <%= text_field :post, :phone_number_1 %>
+    <%= select_tag :phone_number_kind_1, options_for_select([['Mobile',1],['Home',2],['Work',3]]) %>
+    <%= button_tag(type: 'button', onclick: 'add_phone_number') do
+      content_tag(:strong, '+')
+    end %>  </p>
+
+  <p>
+    <%= label :post, :email_address_1 %>&nbsp;&nbsp;
+    <%= text_field :post, :email_address_1 %>
+    <%= button_tag(type: 'button', onclick: 'add_email_address') do
+      content_tag(:strong, '+')
+    end %>
+  </p>
+
+  <p>
+    <%= label :post, :street_address_1 %>&nbsp;&nbsp;
+    <%= text_field :post, :street_address_1, width: '400px' %>
+    <%= button_tag(type: 'button', onclick: 'add_street_address') do
+      content_tag(:strong, '+')
+    end %>
+  </p>
+
+  <p>
+    <%= submit_tag "Save" %>
+  </p>
+
+<% end %>
