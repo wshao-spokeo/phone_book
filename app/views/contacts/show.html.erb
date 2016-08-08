@@ -1,0 +1,32 @@
+<h2>Show Contact</h2>
+
+<p><b>First name:</b> <%= @contact.first_name %></p>
+<p><b>Last name:</b> <%= @contact.last_name %></p>
+
+<p><b>Phone numbers:</b>
+<ul>
+<% @contact.phone_numbers.each do |pn| %>
+	<li><%= pn.content %> (<%= pn.kind_id %>)</li>
+<% end %>
+</ul>
+</p>
+
+<p><b>Email addresses:</b>
+<ul>
+<% @contact.email_addresses.each do |ea| %>
+	<li><%= ea.content %></li>
+<% end %>
+</ul>
+</p>
+
+<p><b>Phone numbers:</b>
+<ul>
+<% @contact.street_addresses.each do |sa| %>
+	<li><%= sa.content %></li>
+<% end %>
+</ul>
+</p>
+
+<p>
+<%= link_to "Back to Contacts", contacts_path %>
+</p>

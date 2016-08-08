@@ -1,0 +1,19 @@
+<h2>All Contacts</h2>
+
+<table>
+<% @all_contacts.each do |c| %>
+	<tr>
+		<td><%= c.full_name %></td>
+		<td>
+			<%= link_to "View", contact_path(c) %>
+		</td>
+		<td>
+			<%= link_to 'Edit', edit_contact_path(c) %>
+		</td>
+		<td>
+			<%= link_to 'Destroy',  { action: :destroy, id: c.id }, method: :delete, data: { confirm: 'Are you sure?' } %>
+		</td>
+	</tr>
+<% end %>
+</table>
+

@@ -1,6 +1,8 @@
-<h2>New Contact</h2>
+<h2>Edit Contact</h2>
 
 <%= form_for :contact, url: contacts_path do |f| %>
+
+  <input name="_method" type="hidden" value="patch" />
 
   <p>
     <%= f.label :first_name %>&nbsp;&nbsp;
