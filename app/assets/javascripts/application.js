@@ -14,3 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+function add_phone_number() {
+	alert('Adding phone number')
+}

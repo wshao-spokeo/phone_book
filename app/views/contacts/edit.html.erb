@@ -14,6 +14,9 @@
 
   <p>
     <%= label_tag 'Phone numbers' %>&nbsp;&nbsp;
+    <%= button_tag(type: 'button', onclick: 'add_phone_number_item') do
+      content_tag(:strong, '+')
+    end %>
     <ul>
       <% @contact.phone_numbers.each_with_index do |pn, index| %>
         <% indexstr = (index + 1).to_s %>
@@ -22,9 +25,6 @@
         <li>
           <%= text_field_tag pni, pn.content %>
           <%= select_tag pnki, options_for_select([['Mobile',1],['Home',2],['Work',3]], pn.kind_id) %>
-          <%= button_tag(type: 'button', onclick: 'add_phone_number') do
-            content_tag(:strong, '+')
-          end %>
         </li>
       <% end %>
     </ul>
@@ -32,15 +32,15 @@
 
   <p>
     <%= label_tag 'Email addresses' %>&nbsp;&nbsp;
+    <%= button_tag(type: 'button', onclick: 'add_email_address_item') do
+      content_tag(:strong, '+')
+    end %>
     <ul>
       <% @contact.email_addresses.each_with_index do |ea, index| %>
         <% indexstr = (index + 1).to_s %>
         <% eai = 'email_address_' + indexstr %>
         <li>
           <%= text_field_tag eai, ea.content, size: 50 %>
-          <%= button_tag(type: 'button', onclick: 'add_email_address') do
-            content_tag(:strong, '+')
-          end %>
         </li>
       <% end %>
     </ul>
@@ -48,15 +48,15 @@
 
   <p>
     <%= label_tag 'Street addresses' %>&nbsp;&nbsp;
+    <%= button_tag(type: 'button', onclick: 'add_street_address_item') do
+      content_tag(:strong, '+')
+    end %>
     <ul>
       <% @contact.street_addresses.each_with_index do |sa, index| %>
         <% indexstr = (index + 1).to_s %>
         <% sai = 'street_address_' + indexstr %>
         <li>
-          <%= text_field_tag sai, sa.content, size: 50 %>
-          <%= button_tag(type: 'button', onclick: 'add_street_address') do
-            content_tag(:strong, '+')
-          end %>
+          <%= text_field_tag sai, sa.content, size: 50 %>          
         </li>
       <% end %>
     </ul>

@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'inner' %>
+
 <h2>New Contact</h2>
 
 <%= form_for :contact, url: contacts_path do |f| %>
@@ -14,37 +16,37 @@
 
   <p>
     <%= label_tag 'Phone numbers' %>&nbsp;&nbsp;
-    <ul>
+    <%= button_tag(type: 'button', onclick: 'add_phone_number_item()') do
+      content_tag(:strong, '+')
+    end %>
+    <ul id='phone_number_group'>
       <li>
         <%= text_field_tag 'phone_number_1' %>
         <%= select_tag 'phone_number_kind_1', options_for_select([['Mobile',1],['Home',2],['Work',3]]) %>
-        <%= button_tag(type: 'button', onclick: 'add_phone_number') do
-            content_tag(:strong, '+')
-          end %>
       </li>
     </ul>
   </p>
 
   <p>
     <%= label_tag 'Email addresses' %>&nbsp;&nbsp;
-    <ul>
+    <%= button_tag(type: 'button', onclick: 'add_email_address_item()') do
+      content_tag(:strong, '+')
+    end %>
+    <ul id='email_address_group'>
       <li>
-        <%= text_field_tag 'email_address_1', '', size: 50 %>
-        <%= button_tag(type: 'button', onclick: 'add_email_address') do
-            content_tag(:strong, '+')
-          end %>
+        <%= text_field_tag 'email_address_1', '', size: 50 %>        
       </li>
     </ul>
   </p>
 
   <p>
     <%= label_tag 'Street addresses' %>&nbsp;&nbsp;
-    <ul>
+    <%= button_tag(type: 'button', onclick: 'add_street_address_item()') do
+        content_tag(:strong, '+')
+    end %>
+    <ul id='street_address_group'>
       <li>
         <%= text_field_tag 'street_address_1', '', size: 50 %>
-        <%= button_tag(type: 'button', onclick: 'add_street_address') do
-            content_tag(:strong, '+')
-          end %>
       </li>
     </ul>
   </p>

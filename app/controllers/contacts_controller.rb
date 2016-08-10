@@ -15,6 +15,53 @@ class ContactsController < ApplicationController
 
 		#post_params = params[:post]
 
+		pnkprefix = "phone_number_kind_"
+		eaprefix = "email_address_"
+		saprefix = "street_address_"
+
+		# Update phone_number and phone_number_kind
+		params.each do |k, v|
+
+			if k.starts_with?(pnkprefix)
+			
+				pri = k[pnkprefix.length]
+				pnstr = "phone_number_" + pri
+				pnhash = {
+					'contact_id': @contact.id,
+					'content': params[pnstr],
+					'kind_id': v.to_i,
+					'priority': pri.to_i
+				}
+				pno = PhoneNumber.new(pnhash)
+				pno.save
+			
+			elsif k.starts_with?(eaprefix)
+			
+				pri = k[eaprefix.length]
+				eahash = {
+					'contact_id': @contact.id,
+					'content': v,
+					'priority': pri.to_i
+				}
+				eao = EmailAddress.new(eahash)
+				eao.save
+			
+			elsif k.starts_with?(saprefix)
+			
+				pri = k[saprefix.length]
+				sahash = {
+					'contact_id': @contact.id,
+					'content': v,
+					'priority': pri.to_i
+				}
+				sao = StreetAddress.new(sahash)
+				sao.save
+			
+			end
+		
+		end
+
+=begin
 		phone_number_hash = {
 			'contact_id': @contact.id,
 			'content': params['phone_number_1'],
@@ -42,6 +89,7 @@ class ContactsController < ApplicationController
 
 		street_address = StreetAddress.new(street_address_hash)
 		street_address.save
+=end
 
 		redirect_to @contact
 
