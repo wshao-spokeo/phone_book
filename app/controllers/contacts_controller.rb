@@ -13,24 +13,24 @@ class ContactsController < ApplicationController
 		#@contact = Contact.new(params[:contact])
 		@contact.save
 
-		post_params = params[:post]
+		#post_params = params[:post]
 
 		phone_number_hash = {
 			'contact_id': @contact.id,
-			'content': post_params['phone_number_1'],
-			'kind_id': post_params['phone_number_kind_1'].to_i,
+			'content': params['phone_number_1'],
+			'kind_id': params['phone_number_kind_1'].to_i,
 			'priority': 1
 		}
 
 		email_address_hash = {
 			'contact_id': @contact.id,
-			'content': post_params['email_address_1'],
+			'content': params['email_address_1'],
 			'priority': 1
 		}
 
 		street_address_hash = {
 			'contact_id': @contact.id,
-			'content': post_params['street_address_1'],
+			'content': params['street_address_1'],
 			'priority': 1
 		}
 
@@ -48,22 +48,69 @@ class ContactsController < ApplicationController
 	end
 
 	def show
+
 		@contact = Contact.find(params[:id])
+		@pnkhash = Hash.new
+		@pnkrevhash = Hash.new
+		PhoneNumberKind.find_each do |pnk|
+			@pnkhash[pnk.id] = pnk.kind
+			@pnkrevhash[pnk.kind] = pnk.id
+		end
+
+		#render plain: @pnkhash.inspect
+
 	end
 
 	def edit
 		@contact = Contact.find(params[:id])
-		
 	end
 
 	def update
-		if @contact.update_attributes(contact_params)
-			flash[:success] = "Profile updated"
-      redirect_to @contact
-      # Handle a successful update.
-    else
-      render 'edit'
-    end
+
+		@contact = Contact.find(params[:id])
+
+		#render plain: contact_params.inspect
+		#render plain: params.inspect
+
+#=begin
+
+		#@contact.update_all(contact_params)
+		@contact.first_name = contact_params['first_name']
+		@contact.last_name = contact_params['last_name']
+		@contact.save
+
+		pnkprefix = "phone_number_kind_"
+		eaprefix = "email_address_"
+		saprefix = "street_address_"
+
+		# Update phone_number and phone_number_kind
+		params.each do |k, v|
+			if k.starts_with?(pnkprefix)
+				pri = k[pnkprefix.length]
+				pnstr = "phone_number_" + pri
+				pnhash = Hash.new
+				pnhash[:content] = params[pnstr]
+				pnhash[:kind_id] = v.to_i
+				#render plain: pnhash.inspect
+				pno = @contact.phone_numbers.find(priority=pri)
+				pno.attributes = pnhash
+				pno.save
+			elsif k.starts_with?(eaprefix)
+				pri = k[eaprefix.length]
+				eao = @contact.email_addresses.find(priority=pri)
+				eao.attributes = {'content': v}
+				eao.save
+			elsif k.starts_with?(saprefix)
+				pri = k[saprefix.length]
+				sao = @contact.street_addresses.find(priority=pri)
+				sao.attributes = {'content': v}
+				sao.save
+			end
+		end
+
+		redirect_to @contact
+
+#=end
 
 	end
 

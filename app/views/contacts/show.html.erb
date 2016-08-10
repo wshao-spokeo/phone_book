@@ -6,7 +6,7 @@
 <p><b>Phone numbers:</b>
 <ul>
 <% @contact.phone_numbers.each do |pn| %>
-	<li><%= pn.content %> (<%= pn.kind_id %>)</li>
+	<li><%= pn.content %> (<%= @pnkhash[pn.kind_id] %>)</li>
 <% end %>
 </ul>
 </p>
@@ -28,5 +28,5 @@
 </p>
 
 <p>
-<%= link_to "Back to Contacts", contacts_path %>
+<%= link_to "Back to Contact List", contacts_path %>
 </p>

@@ -11,48 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160805223227) do
+ActiveRecord::Schema.define(version: 20160810021112) do
 
   create_table "contacts", force: :cascade do |t|
-    t.string   "first_name", limit: 255
-    t.string   "last_name",  limit: 255
+    t.string   "first_name", limit: 255, null: false
+    t.string   "last_name",  limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
   create_table "email_addresses", force: :cascade do |t|
-    t.integer  "contact_id", limit: 4
-    t.string   "content",    limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "priority",   limit: 4
+    t.integer  "contact_id", limit: 4,   default: 0, null: false
+    t.string   "content",    limit: 255,             null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "priority",   limit: 4,               null: false
   end
 
   add_index "email_addresses", ["contact_id"], name: "fk_rails_4d0f0f2e58", using: :btree
 
   create_table "phone_number_kinds", force: :cascade do |t|
-    t.string   "kind",       limit: 255
+    t.string   "kind",       limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
   create_table "phone_numbers", force: :cascade do |t|
-    t.integer  "contact_id", limit: 4
-    t.string   "content",    limit: 255
-    t.integer  "kind_id",    limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "priority",   limit: 4
+    t.integer  "contact_id", limit: 4,   default: 0, null: false
+    t.string   "content",    limit: 255,             null: false
+    t.integer  "kind_id",    limit: 4,               null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "priority",   limit: 4,               null: false
   end
 
   add_index "phone_numbers", ["contact_id"], name: "fk_rails_a91cb86194", using: :btree
 
   create_table "street_addresses", force: :cascade do |t|
-    t.integer  "contact_id", limit: 4
-    t.string   "content",    limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "priority",   limit: 4
+    t.integer  "contact_id", limit: 4,   default: 0, null: false
+    t.string   "content",    limit: 255,             null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "priority",   limit: 4,               null: false
   end
 
   add_index "street_addresses", ["contact_id"], name: "fk_rails_ecd2d6633c", using: :btree

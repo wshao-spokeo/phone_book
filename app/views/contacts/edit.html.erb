@@ -1,8 +1,6 @@
 <h2>Edit Contact</h2>
 
-<%= form_for :contact, url: contacts_path do |f| %>
-
-  <input name="_method" type="hidden" value="patch" />
+<%= form_for(@contact, url: {action: "update"}) do |f| %>
 
   <p>
     <%= f.label :first_name %>&nbsp;&nbsp;
@@ -15,31 +13,61 @@
   </p>
 
   <p>
-    <%= label :post, :phone_number_1 %>&nbsp;&nbsp;
-    <%= text_field :post, :phone_number_1 %>
-    <%= select_tag :phone_number_kind_1, options_for_select([['Mobile',0],['Home',1],['Work',2]]) %>
-    <%= button_tag(type: 'button', onclick: 'add_phone_number') do
-      content_tag(:strong, '+')
-    end %>  </p>
-
-  <p>
-    <%= label :post, :email_address_1 %>&nbsp;&nbsp;
-    <%= text_field :post, :email_address_1 %>
-    <%= button_tag(type: 'button', onclick: 'add_email_address') do
-      content_tag(:strong, '+')
-    end %>
+    <%= label_tag 'Phone numbers' %>&nbsp;&nbsp;
+    <ul>
+      <% @contact.phone_numbers.each_with_index do |pn, index| %>
+        <% indexstr = (index + 1).to_s %>
+        <% pni = 'phone_number_' + indexstr %>
+        <% pnki = 'phone_number_kind_' + indexstr %>
+        <li>
+          <%= text_field_tag pni, pn.content %>
+          <%= select_tag pnki, options_for_select([['Mobile',1],['Home',2],['Work',3]], pn.kind_id) %>
+          <%= button_tag(type: 'button', onclick: 'add_phone_number') do
+            content_tag(:strong, '+')
+          end %>
+        </li>
+      <% end %>
+    </ul>
   </p>
 
   <p>
-    <%= label :post, :street_address_1 %>&nbsp;&nbsp;
-    <%= text_field :post, :street_address_1, width: '400px' %>
-    <%= button_tag(type: 'button', onclick: 'add_street_address') do
-      content_tag(:strong, '+')
-    end %>
+    <%= label_tag 'Email addresses' %>&nbsp;&nbsp;
+    <ul>
+      <% @contact.email_addresses.each_with_index do |ea, index| %>
+        <% indexstr = (index + 1).to_s %>
+        <% eai = 'email_address_' + indexstr %>
+        <li>
+          <%= text_field_tag eai, ea.content, size: 50 %>
+          <%= button_tag(type: 'button', onclick: 'add_email_address') do
+            content_tag(:strong, '+')
+          end %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+
+  <p>
+    <%= label_tag 'Street addresses' %>&nbsp;&nbsp;
+    <ul>
+      <% @contact.street_addresses.each_with_index do |sa, index| %>
+        <% indexstr = (index + 1).to_s %>
+        <% sai = 'street_address_' + indexstr %>
+        <li>
+          <%= text_field_tag sai, sa.content, size: 50 %>
+          <%= button_tag(type: 'button', onclick: 'add_street_address') do
+            content_tag(:strong, '+')
+          end %>
+        </li>
+      <% end %>
+    </ul>
   </p>
 
   <p>
     <%= f.submit %>
+  </p>
+
+  <p>
+    <%= link_to "Back to Contacts List", contacts_path %>
   </p>
 
 <% end %>
