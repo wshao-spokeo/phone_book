@@ -48,3 +48,5 @@ end
 gem 'haml'
 gem 'mysql2', '~> 0.3.18'
 gem 'rspec-rails', :group => [:development, :test]
+gem 'factory_girl_rails'
+gem 'faker'
