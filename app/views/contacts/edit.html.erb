@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'inner' %>
+
 <h2>Edit Contact</h2>
 
 <%= form_for(@contact, url: {action: "update"}) do |f| %>
@@ -14,10 +16,10 @@
 
   <p>
     <%= label_tag 'Phone numbers' %>&nbsp;&nbsp;
-    <%= button_tag(type: 'button', onclick: 'add_phone_number_item') do
+    <%= button_tag(type: 'button', onclick: 'add_phone_number_item()') do
       content_tag(:strong, '+')
     end %>
-    <ul>
+    <ul id='phone_number_group' >
       <% @contact.phone_numbers.each_with_index do |pn, index| %>
         <% indexstr = (index + 1).to_s %>
         <% pni = 'phone_number_' + indexstr %>
@@ -32,10 +34,10 @@
 
   <p>
     <%= label_tag 'Email addresses' %>&nbsp;&nbsp;
-    <%= button_tag(type: 'button', onclick: 'add_email_address_item') do
+    <%= button_tag(type: 'button', onclick: 'add_email_address_item()') do
       content_tag(:strong, '+')
     end %>
-    <ul>
+    <ul id='email_address_group' >
       <% @contact.email_addresses.each_with_index do |ea, index| %>
         <% indexstr = (index + 1).to_s %>
         <% eai = 'email_address_' + indexstr %>
@@ -48,10 +50,10 @@
 
   <p>
     <%= label_tag 'Street addresses' %>&nbsp;&nbsp;
-    <%= button_tag(type: 'button', onclick: 'add_street_address_item') do
+    <%= button_tag(type: 'button', onclick: 'add_street_address_item()') do
       content_tag(:strong, '+')
     end %>
-    <ul>
+    <ul id='street_address_group' >
       <% @contact.street_addresses.each_with_index do |sa, index| %>
         <% indexstr = (index + 1).to_s %>
         <% sai = 'street_address_' + indexstr %>

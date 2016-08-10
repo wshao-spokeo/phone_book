@@ -61,36 +61,6 @@ class ContactsController < ApplicationController
 		
 		end
 
-=begin
-		phone_number_hash = {
-			'contact_id': @contact.id,
-			'content': params['phone_number_1'],
-			'kind_id': params['phone_number_kind_1'].to_i,
-			'priority': 1
-		}
-
-		email_address_hash = {
-			'contact_id': @contact.id,
-			'content': params['email_address_1'],
-			'priority': 1
-		}
-
-		street_address_hash = {
-			'contact_id': @contact.id,
-			'content': params['street_address_1'],
-			'priority': 1
-		}
-
-		phone_number = PhoneNumber.new(phone_number_hash)
-		phone_number.save
-
-		email_address = EmailAddress.new(email_address_hash)
-		email_address.save
-
-		street_address = StreetAddress.new(street_address_hash)
-		street_address.save
-=end
-
 		redirect_to @contact
 
 	end
@@ -131,29 +101,79 @@ class ContactsController < ApplicationController
 		eaprefix = "email_address_"
 		saprefix = "street_address_"
 
+		# Count how many items there are for each, originally, before the dynamic item adding
+		pnoc = @contact.phone_numbers.count
+		eaoc = @contact.email_addresses.count
+		saoc = @contact.street_addresses.count
+
 		# Update phone_number and phone_number_kind
 		params.each do |k, v|
+
 			if k.starts_with?(pnkprefix)
-				pri = k[pnkprefix.length]
-				pnstr = "phone_number_" + pri
-				pnhash = Hash.new
-				pnhash[:content] = params[pnstr]
-				pnhash[:kind_id] = v.to_i
-				#render plain: pnhash.inspect
-				pno = @contact.phone_numbers.find(priority=pri)
-				pno.attributes = pnhash
-				pno.save
+				pristr = k[pnkprefix.length]
+				pri = pristr.to_i
+				if pri > pnoc
+					# Create new record for phone number
+					pnstr = "phone_number_" + pristr
+					pnhash = {
+						'contact_id': @contact.id,
+						'content': params[pnstr],
+						'kind_id': v.to_i,
+						'priority': pri
+					}
+					pno = PhoneNumber.new(pnhash)
+					pno.save
+				else
+					pnstr = "phone_number_" + pristr
+					pnhash = Hash.new
+					pnhash[:content] = params[pnstr]
+					pnhash[:kind_id] = v.to_i
+					#render plain: pnhash.inspect
+					pno = @contact.phone_numbers.find(priority=pri)
+					pno.attributes = pnhash
+					pno.save
+				end
+
 			elsif k.starts_with?(eaprefix)
-				pri = k[eaprefix.length]
-				eao = @contact.email_addresses.find(priority=pri)
-				eao.attributes = {'content': v}
-				eao.save
+				
+				pristr = k[eaprefix.length]
+				pri = pristr.to_i
+				if pri > eaoc
+					eastr = "email_address_" + pristr
+					eahash = {
+						'contact_id': @contact.id,
+						'content': v,
+						'priority': pri
+					}
+					eao = EmailAddress.new(eahash)
+					eao.save
+				else
+					eao = @contact.email_addresses.find(priority=pri)
+					eao.attributes = {'content': v}
+					eao.save
+				end
+
 			elsif k.starts_with?(saprefix)
-				pri = k[saprefix.length]
-				sao = @contact.street_addresses.find(priority=pri)
-				sao.attributes = {'content': v}
-				sao.save
+
+				pristr = k[saprefix.length]
+				pri = pristr.to_i
+				if pri > saoc
+					sastr = "street_address_" + pristr
+					sahash = {
+						'contact_id': @contact.id,
+						'content': v,
+						'priority': pri
+					}
+					sao = StreetAddress.new(sahash)
+					sao.save
+				else
+					sao = @contact.street_addresses.find(priority=pri)
+					sao.attributes = {'content': v}
+					sao.save
+				end
+
 			end
+
 		end
 
 		redirect_to @contact
